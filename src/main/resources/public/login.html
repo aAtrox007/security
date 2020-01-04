@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>登录页面</h1>
+    <form action="/login" method="POST">
+        <table>
+            <tbody>
+                <tr>
+                    <td>用户名: </td>
+                    <td><input name="username"/> </td>
+                </tr>
+                <tr>
+                    <td>密码: </td>
+                    <td><input name="password"/> </td>
+                </tr>
+                <tr>
+                    <td>验证码: </td>
+                    <td><input name="imageCode"/>
+                        <img id="imageCode" style="position: relative; top: 6px;"
+                             onclick="javascript: this.src = '/image/code?timestamp=' + new Date()"
+                             src="/image/code">
+                    </td>
+                </tr>
+                <tr>
+                    <td>记住我:</td>
+                    <td><input type="checkbox" name="remember-me"> </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="提交">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
