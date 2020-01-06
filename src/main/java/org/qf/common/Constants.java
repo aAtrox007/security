@@ -8,4 +8,6 @@ public class Constants {
     public static final String SMS_CODE_SESSION_KEY = "SMS_CODE_SESSION_KEY";
 
     public static final String LOGIN_URI = "/login";
+
+    public static final String SMS_LOGIN_URI = "/phoneLogin";
 }

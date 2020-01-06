@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="./js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
 </head>
 <body>
     <h1>登录页面</h1>
@@ -37,5 +39,73 @@
             </tbody>
         </table>
     </form>
+    <hr>
+    <div id="app">
+        <form action="/phoneLogin" method="post">
+            <p v-show="msgShow">短信已发送</p>
+            <tbody>
+            <tr>
+                <td>手机号: </td>
+                <td>
+                    <input name="phoneNum" v-model="phoneNum"/>
+                    <button @click.prevent="sendSms" :disabled="btnStatus">{{btnText}}</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>验证码: </td>
+                <td><input name="msgCode"/> </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="提交">
+                </td>
+            </tr>
+            </tbody>
+
+        </form>
+    </div>
+
 </body>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+          return {
+              btnText: '发送短信',
+              btnStatus: false,
+              msgShow: false,
+              phoneNum: ''
+          }
+        },
+        methods: {
+            sendSms() {
+                this.btnTextChange(120);
+                axios.get('/smsCode?phoneNum=' + this.phoneNum)
+                    .then(resp => {
+                        this.msgShow = true;
+                    });
+
+            },
+            btnTextChange(time) {
+                if(time > 0) {
+                    this.btnText = '已发送(' + time + ")"
+                    this.btnStatus = true;
+
+                    let newTime = time - 1;
+
+
+
+                    setTimeout(() => {
+                        this.btnTextChange(newTime)
+                    }, 1000);
+                }else {
+                    this.btnText = '发送短信';
+                    this.btnStatus = false;
+                }
+
+            }
+        }
+    })
+</script>
 </html>

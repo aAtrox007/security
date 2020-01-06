@@ -44,11 +44,12 @@ public class UserAuthencation implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("用户名: " + username);
-        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        SysUser sysUser = sysUserService.getSysUserByUsernameOrPhoneNum(username);
 
 //        String password = "$2a$10$ODIws5e9r1LvPAGJWogJjuJEaoVGDsTIJLW3udUQ2yjRy2pn/HDIG";   //例如说密码是从数据库查询出来的
         // 用户如果不存在，就手动抛出异常
         if(null == sysUser) {
+            logger.info("获取到用户信息为空.");
             throw new UsernameNotFoundException("用户名或密码错误");
         }
 

@@ -12,6 +12,9 @@ import org.springframework.util.Assert;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * filter中就是获取phoneNum
+ */
 public class PhoneNumAuthenticationFilter extends
         AbstractAuthenticationProcessingFilter {
     // ~ Static fields/initializers

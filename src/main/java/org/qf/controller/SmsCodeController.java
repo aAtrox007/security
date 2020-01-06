@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping
+@RequestMapping("/smsCode")
 @RestController
 public class SmsCodeController {
 
@@ -27,7 +27,7 @@ public class SmsCodeController {
 
         String randomCode = randomStringGenerator.generate(6);  //生成随机码
 
-        SmsCode smsCode = new SmsCode(randomCode, 120);
+        SmsCode smsCode = new SmsCode(randomCode, 20);
         request.getSession().setAttribute(Constants.SMS_CODE_SESSION_KEY, smsCode);
 
         smsCodeService.sendMsg(randomCode, phoneNum);

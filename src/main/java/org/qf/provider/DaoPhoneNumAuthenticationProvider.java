@@ -1,11 +1,10 @@
 package org.qf.provider;
 
-import com.mysql.cj.conf.PropertySet;
-import com.mysql.cj.exceptions.ExceptionInterceptor;
-import com.mysql.cj.protocol.Protocol;
-import com.mysql.cj.protocol.ServerSession;
+
 import org.qf.authentication.PhoneNumAuthenticationToken;
+import org.qf.config.UserAuthencation;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -14,11 +13,41 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class DaoPhoneNumAuthenticationProvider implements AuthenticationProvider {
 
+    private UserAuthencation userAuthencation;
+
+    public UserAuthencation getUserAuthencation() {
+        return userAuthencation;
+    }
+
+    public void setUserAuthencation(UserAuthencation userAuthencation) {
+        this.userAuthencation = userAuthencation;
+    }
+
+    // 对于手机号验证不用校验密码
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        PhoneNumAuthenticationToken token = (PhoneNumAuthenticationToken)authentication;
 
+        String phoneNum = (String)token.getPrincipal(); //获取手机号
 
-        return null;
+        System.out.println("用户手机号:" + phoneNum);
+
+        UserDetails userDetails = userAuthencation.loadUserByUsername(phoneNum);  //获取用户信息
+
+        // 对于手机号登录，不用校验用户的密码，只用判断用户在不在
+        if(null == userDetails) {
+            throw new InternalAuthenticationServiceException(
+                    "UserDetailsService returned null, which is an interface contract violation");
+        }
+
+        // 这是一个新的封装了用户的信息的token
+        PhoneNumAuthenticationToken phoneNumAuthenticationToken
+                = new PhoneNumAuthenticationToken(userDetails, userDetails.getAuthorities());
+
+        //将老的详情信息设置到新的token中
+        phoneNumAuthenticationToken.setDetails(token.getDetails());
+
+        return phoneNumAuthenticationToken;
     }
 
     /**

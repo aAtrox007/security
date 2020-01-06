@@ -1,8 +1,11 @@
 package org.qf.config;
 
 import org.qf.filter.ImageCodeFilter;
+import org.qf.filter.PhoneNumAuthenticationFilter;
+import org.qf.filter.SmsCodeFilter;
 import org.qf.handler.CustomizeAuthencationFailureHandler;
 import org.qf.handler.CustomizeAuthencationSuccessHandler;
+import org.qf.pojo.SmsCode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,6 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private CustomizeAuthencationFailureHandler customizeAuthencationFailureHandler;
 
+    @Resource
+    private SmsCodeAuthenticationConfig smsCodeAuthenticationConfig;
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
@@ -60,8 +66,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ImageCodeFilter imageCodeFilter = new ImageCodeFilter();
         imageCodeFilter.setCustomizeAuthencationFailureHandler(customizeAuthencationFailureHandler);
 
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setCustomizeAuthencationFailureHandler(customizeAuthencationFailureHandler);
+
         // 意思是ImageCodeFilter在UsernamePasswordAuthenticationFilter这个过滤器之前运行
         http.addFilterBefore(imageCodeFilter, UsernamePasswordAuthenticationFilter.class) //
+                .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin() //
                 .loginPage("/login.html")
                 .loginProcessingUrl("/login")
@@ -75,11 +85,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(3600)
                 .and()
                 .authorizeRequests()  //认证处理
-                .antMatchers("/login.html", "/image/code").permitAll()  //登录的ProcessingUrl
+                .antMatchers("/login.html", "/image/code", "/smsCode", "/css/**", "/js/**").permitAll()  //登录的ProcessingUrl
                 .anyRequest()  //所有的请求
                 .authenticated()   //认证之后就可以访问
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .apply(smsCodeAuthenticationConfig); //将短信验证的调用链路应用到springsecurity中
     }
 
 }

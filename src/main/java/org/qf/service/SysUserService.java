@@ -20,10 +20,16 @@ public class SysUserService {
         sysUser.setUsername("jack");
         sysUser.setPassword("$2a$10$ODIws5e9r1LvPAGJWogJjuJEaoVGDsTIJLW3udUQ2yjRy2pn/HDIG");
 
+        SysUser user2 = new SysUser();
+        user2.setId(2);
+        user2.setUsername("13307981205");
+        user2.setPassword("$2a$10$ODIws5e9r1LvPAGJWogJjuJEaoVGDsTIJLW3udUQ2yjRy2pn/HDIG");
+
         userMap.put("jack", sysUser);
+        userMap.put("13307981205", user2);
     }
 
-    public SysUser getSysUserByUsername(String username) {
-        return userMap.get(username);
+    public SysUser getSysUserByUsernameOrPhoneNum(String usernameOrPhoneNum) {
+        return userMap.get(usernameOrPhoneNum);
     }
 }

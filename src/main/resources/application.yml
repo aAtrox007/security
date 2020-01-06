@@ -20,3 +20,9 @@ spring:
       min-evictable-idle-time-millis: 30000
       # 距离上次释放空闲连接的时间间隔
       time-between-eviction-runs-millis: 30000
+
+aliyun:
+  dev:
+    accessKeyID: LTAI4Fi1FC8hFjPtShDzJaDZ
+    accessKeySecret: pxX8CqQMLL1hfl2vS7YqRLgANt6TxD
+
