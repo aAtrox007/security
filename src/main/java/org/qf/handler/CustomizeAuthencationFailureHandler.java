@@ -28,7 +28,7 @@ public class CustomizeAuthencationFailureHandler implements AuthenticationFailur
         response.setContentType("application/json;charset=utf-8");
         Map<String, Object> map = new HashMap<>();
         map.put("code", -1);
-        map.put("msg", "用户名或密码错误");
+        map.put("msg", exception.getMessage());
 
         PrintWriter writer = response.getWriter();
 

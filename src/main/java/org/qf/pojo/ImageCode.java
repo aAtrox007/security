@@ -3,10 +3,8 @@ package org.qf.pojo;
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
-public class ImageCode {
+public class ImageCode extends SmsCode{
     private BufferedImage bufferedImage; //图片
-    private String code;
-    private LocalDateTime expireTime; //过期时间
 
     public ImageCode() {
     }
@@ -18,15 +16,10 @@ public class ImageCode {
      * @param ttl
      */
     public ImageCode(BufferedImage bufferedImage, String code, long ttl) {
+        super(code, ttl);
         this.bufferedImage = bufferedImage;
-        this.code = code;
-        this.expireTime = LocalDateTime.now().plusSeconds(ttl);
     }
 
-    // 判断图片验证是否过期
-    public boolean isExpire() {
-        return LocalDateTime.now().isBefore(this.expireTime);
-    }
 
     public BufferedImage getBufferedImage() {
         return bufferedImage;
@@ -34,21 +27,5 @@ public class ImageCode {
 
     public void setBufferedImage(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public LocalDateTime getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(LocalDateTime expireTime) {
-        this.expireTime = expireTime;
     }
 }

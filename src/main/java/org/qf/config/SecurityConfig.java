@@ -1,5 +1,6 @@
 package org.qf.config;
 
+import org.qf.filter.ImageCodeFilter;
 import org.qf.handler.CustomizeAuthencationFailureHandler;
 import org.qf.handler.CustomizeAuthencationSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Component;
@@ -55,7 +57,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        super.configure(http);
-        http.formLogin() //
+        ImageCodeFilter imageCodeFilter = new ImageCodeFilter();
+        imageCodeFilter.setCustomizeAuthencationFailureHandler(customizeAuthencationFailureHandler);
+
+        // 意思是ImageCodeFilter在UsernamePasswordAuthenticationFilter这个过滤器之前运行
+        http.addFilterBefore(imageCodeFilter, UsernamePasswordAuthenticationFilter.class) //
+                .formLogin() //
                 .loginPage("/login.html")
                 .loginProcessingUrl("/login")
                 .successHandler(customizeAuthencationSuccessHandler)  //用户登录成功的处理

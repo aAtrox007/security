@@ -49,7 +49,7 @@ public class UserAuthencation implements UserDetailsService {
 //        String password = "$2a$10$ODIws5e9r1LvPAGJWogJjuJEaoVGDsTIJLW3udUQ2yjRy2pn/HDIG";   //例如说密码是从数据库查询出来的
         // 用户如果不存在，就手动抛出异常
         if(null == sysUser) {
-            throw new UsernameNotFoundException("用户不存在");
+            throw new UsernameNotFoundException("用户名或密码错误");
         }
 
         return new User(username, sysUser.getPassword(), Arrays.asList(new SimpleGrantedAuthority("admin")));
