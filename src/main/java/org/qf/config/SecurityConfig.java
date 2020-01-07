@@ -1,11 +1,11 @@
 package org.qf.config;
 
 import org.qf.filter.ImageCodeFilter;
-import org.qf.filter.PhoneNumAuthenticationFilter;
 import org.qf.filter.SmsCodeFilter;
 import org.qf.handler.CustomizeAuthencationFailureHandler;
 import org.qf.handler.CustomizeAuthencationSuccessHandler;
-import org.qf.pojo.SmsCode;
+import org.qf.handler.MutilpleSessionHandler;
+import org.qf.handler.NoPermitAccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
@@ -48,6 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     private SmsCodeAuthenticationConfig smsCodeAuthenticationConfig;
+
+    @Resource
+    private MutilpleSessionHandler mutilpleSessionHandler;
+
+    @Resource
+    private NoPermitAccessHandler noPermitAccessHandler;
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
@@ -88,6 +92,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login.html", "/image/code", "/smsCode", "/css/**", "/js/**").permitAll()  //登录的ProcessingUrl
                 .anyRequest()  //所有的请求
                 .authenticated()   //认证之后就可以访问
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .expiredSessionStrategy(mutilpleSessionHandler)
+                .and()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login.html")
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(noPermitAccessHandler)   //无权限访问处理
                 .and()
                 .csrf().disable()
                 .apply(smsCodeAuthenticationConfig); //将短信验证的调用链路应用到springsecurity中

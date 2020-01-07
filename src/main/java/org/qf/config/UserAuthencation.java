@@ -5,6 +5,7 @@ import org.qf.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 彩虹表。md5
@@ -53,11 +56,15 @@ public class UserAuthencation implements UserDetailsService {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
 
-        return new User(username, sysUser.getPassword(), Arrays.asList(new SimpleGrantedAuthority("admin")));
+        return new User(username, sysUser.getPassword(), authorities());
     }
 
     public static void main(String[] args) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         System.out.println(passwordEncoder.encode("1"));
+    }
+
+    private List<GrantedAuthority> authorities() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_admin"), new SimpleGrantedAuthority("ROLE_teacher"));
     }
 }
