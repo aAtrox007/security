@@ -19,6 +19,20 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
+ * A. 基于角色的权限控制
+      1).使用@RoleAllowed, 在查询用户的权限的时候，构建角色的时候必须是 ROLE_admin
+        使用的时候可以：@RoleAllowed("admin") 或者 @RoleAllowed("ROLE_admin")
+      2). @Secured  在查询用户的权限的时候，构建的时候必须是 ROLE_admin
+          使用的时候只能是 @Secured({"ROLE_admin"})
+      3). @PreAuthorize, 构建的时候必须是 ROLE_admin, ROLE_system
+          使用的时候只能是 @PreAuthorize("hasRole('ROLE_admin') or|and hasRole('ROLE_system')")  @PreAuthorize("hasRole('admin')")
+          使用的时候只能是 @PreAuthorize("hasRole('ROLE_admin') or|and hasRole('ROLE_system')")  @PreAuthorize("hasRole('admin')")
+ *    4). antMatchers("/stu/add").hasRole("admin")
+ *  B. 基于操作的权限控制
+ *    1) 在构建操作权限的时候的时候不需要任何的前缀。例如：user:list  user:add
+ *       在使用 @PreAuthorize的时候，形式是：@PreAuthorize("hasAuthority('user:list')")
+ *    2) 编码的方式：antMatchers("/company/delete").hasAuthority("company:delete")
+ *
  * @Component
  * @Configuration
  */
@@ -90,6 +104,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()  //认证处理
                 .antMatchers("/login.html", "/image/code", "/smsCode", "/css/**", "/js/**").permitAll()  //登录的ProcessingUrl
+//                .antMatchers("/stu/add").hasRole("admin")  //基于角色
+//                .antMatchers("/stu/delete").hasRole("system")
+//                .antMatchers("/stu/edit", "/stu/export").hasRole("teacher")
+                .antMatchers("/company/delete").hasAuthority("company:delete")  //基于操作
+                .antMatchers("/company/add").hasAuthority("company:add")
+                .antMatchers("/company/edit").hasAuthority("company:edit")
                 .anyRequest()  //所有的请求
                 .authenticated()   //认证之后就可以访问
                 .and()

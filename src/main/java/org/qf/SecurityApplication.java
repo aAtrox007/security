@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * Hello world!
  */
 @SpringBootApplication
-@EnableGlobalMethodSecurity(jsr250Enabled=true, securedEnabled=true)
+@EnableGlobalMethodSecurity(jsr250Enabled=true, securedEnabled=true, prePostEnabled = true)
 public class SecurityApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecurityApplication.class, args);

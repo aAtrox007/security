@@ -1,5 +1,6 @@
 package org.qf.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +32,13 @@ public class UserController {
         return "delete";
     }
 
+    /**
+     * 在配置用户角色的时候 new SimpleGrantedAuthority("ROLE_teacher"), 必须是ROLE_
+     * 使用@Secured的时候  ROLE_teacher
+     */
     @RequestMapping("/add")
-    @RolesAllowed({"ROLE_teacher"})
+    //@RolesAllowed({"ROLE_teacher"})
+    @Secured({"ROLE_teacher"})
     public Object add() {
         return "add";
     }

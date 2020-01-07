@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -55,8 +56,10 @@ public class UserAuthencation implements UserDetailsService {
             logger.info("获取到用户信息为空.");
             throw new UsernameNotFoundException("用户名或密码错误");
         }
+        //List<String> roles = sysUser.getRoles(); //获取用户所有的角色
+        List<String> process = sysUser.getProcess();
 
-        return new User(username, sysUser.getPassword(), authorities());
+        return new User(username, sysUser.getPassword(), authorities(process));
     }
 
     public static void main(String[] args) {
@@ -64,7 +67,26 @@ public class UserAuthencation implements UserDetailsService {
         System.out.println(passwordEncoder.encode("1"));
     }
 
-    private List<GrantedAuthority> authorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_admin"), new SimpleGrantedAuthority("ROLE_teacher"));
+    private List<GrantedAuthority> authorities(List<String> process) {
+        List<GrantedAuthority> list = new ArrayList<>();
+        process.forEach(pro -> {
+            list.add(new SimpleGrantedAuthority(pro));
+        });
+
+        //return Arrays.asList(new SimpleGrantedAuthority("ROLE_admin"), new SimpleGrantedAuthority("ROLE_teacher"));
+        return list;
     }
+
+
+    /** 基于角色
+    private List<GrantedAuthority> authorities(List<String> roles) {
+        List<GrantedAuthority> list = new ArrayList<>();
+        roles.forEach(role -> {
+            list.add(new SimpleGrantedAuthority("ROLE_" + role));
+        });
+
+        //return Arrays.asList(new SimpleGrantedAuthority("ROLE_admin"), new SimpleGrantedAuthority("ROLE_teacher"));
+        return list;
+    }
+     */
 }
