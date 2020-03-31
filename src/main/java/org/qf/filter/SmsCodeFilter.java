@@ -1,10 +1,8 @@
 package org.qf.filter;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import org.apache.logging.log4j.util.Strings;
 import org.qf.common.Constants;
 import org.qf.handler.CustomizeAuthencationFailureHandler;
-import org.qf.pojo.ImageCode;
 import org.qf.pojo.SmsCode;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;

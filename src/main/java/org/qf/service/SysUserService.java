@@ -26,7 +26,6 @@ public class SysUserService {
         List<String> sysUserProcess = Arrays.asList("company:delete");
         sysUser.setProcess(sysUserProcess);
 
-
         SysUser sysUser2 = new SysUser();
         sysUser2.setId(3);
         sysUser2.setUsername("smith");

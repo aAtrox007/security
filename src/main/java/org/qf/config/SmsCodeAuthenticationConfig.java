@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * 该类的作用是将 自定义Filter与Provider串起来，然后加入spring security的整个过滤器链中
+ * 该类的作用是将 自定义Filter与Provider串起来，
+ * 然后加入spring security的整个过滤器链中
  */
 @Component
 public class SmsCodeAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
@@ -31,7 +32,8 @@ public class SmsCodeAuthenticationConfig extends SecurityConfigurerAdapter<Defau
     // 将Filter与Provider串起来
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        PhoneNumAuthenticationFilter phoneNumAuthenticationFilter = new PhoneNumAuthenticationFilter();
+        PhoneNumAuthenticationFilter phoneNumAuthenticationFilter
+                = new PhoneNumAuthenticationFilter();
 
         // 设置AuthenticationManager, 设置目的是 使用它来协调 Filter与Provider
         phoneNumAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
@@ -42,7 +44,8 @@ public class SmsCodeAuthenticationConfig extends SecurityConfigurerAdapter<Defau
         // 使用手机号登录成功了如何处理
         phoneNumAuthenticationFilter.setAuthenticationSuccessHandler(customizeAuthencationSuccessHandler);
 
-        DaoPhoneNumAuthenticationProvider daoPhoneNumAuthenticationProvider = new DaoPhoneNumAuthenticationProvider();
+        DaoPhoneNumAuthenticationProvider daoPhoneNumAuthenticationProvider =
+                new DaoPhoneNumAuthenticationProvider();
         daoPhoneNumAuthenticationProvider.setUserAuthencation(userAuthencation);
 
         // 设置Provider以及过滤器

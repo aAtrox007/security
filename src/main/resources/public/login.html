@@ -7,76 +7,76 @@
     <script src="js/axios.min.js"></script>
 </head>
 <body>
-    <h1>登录页面</h1>
-    <form action="/login" method="POST">
-        <table>
-            <tbody>
-                <tr>
-                    <td>用户名: </td>
-                    <td><input name="username"/> </td>
-                </tr>
-                <tr>
-                    <td>密码: </td>
-                    <td><input name="password"/> </td>
-                </tr>
-                <tr>
-                    <td>验证码: </td>
-                    <td><input name="imageCode"/>
-                        <img id="imageCode" style="position: relative; top: 6px;"
-                             onclick="javascript: this.src = '/image/code?timestamp=' + new Date()"
-                             src="/image/code">
-                    </td>
-                </tr>
-                <tr>
-                    <td>记住我:</td>
-                    <td><input type="checkbox" name="remember-me"> </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" value="提交">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<h1>登录页面</h1>
+<form action="/login" method="POST">
+    <table>
+        <tbody>
+        <tr>
+            <td>用户名:</td>
+            <td><input name="username"/></td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td><input name="password"/></td>
+        </tr>
+        <tr>
+            <td>验证码:</td>
+            <td><input name="imageCode"/>
+                <img id="imageCode" style="position: relative; top: 6px;"
+                     onclick="javascript: this.src = '/image/code?timestamp=' + new Date()"
+                     src="/image/code">
+            </td>
+        </tr>
+        <tr>
+            <td>记住我:</td>
+            <td><input type="checkbox" name="remember-me"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr>
+<div id="app">
+    <form action="/phoneLogin" method="post">
+        <p v-show="msgShow">短信已发送</p>
+        <tbody>
+        <tr>
+            <td>手机号:</td>
+            <td>
+                <input name="phoneNum" v-model="phoneNum"/>
+                <button @click.prevent="sendSms" :disabled="btnStatus">{{btnText}}</button>
+            </td>
+
+        </tr>
+        <tr>
+            <td>验证码:</td>
+            <td><input name="msgCode"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="提交">
+            </td>
+        </tr>
+        </tbody>
+
     </form>
-    <hr>
-    <div id="app">
-        <form action="/phoneLogin" method="post">
-            <p v-show="msgShow">短信已发送</p>
-            <tbody>
-            <tr>
-                <td>手机号: </td>
-                <td>
-                    <input name="phoneNum" v-model="phoneNum"/>
-                    <button @click.prevent="sendSms" :disabled="btnStatus">{{btnText}}</button>
-                </td>
-
-            </tr>
-            <tr>
-                <td>验证码: </td>
-                <td><input name="msgCode"/> </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="提交">
-                </td>
-            </tr>
-            </tbody>
-
-        </form>
-    </div>
+</div>
 
 </body>
 <script>
     new Vue({
         el: '#app',
         data() {
-          return {
-              btnText: '发送短信',
-              btnStatus: false,
-              msgShow: false,
-              phoneNum: ''
-          }
+            return {
+                btnText: '发送短信',
+                btnStatus: false,
+                msgShow: false,
+                phoneNum: ''
+            }
         },
         methods: {
             sendSms() {
@@ -88,7 +88,7 @@
 
             },
             btnTextChange(time) {
-                if(time > 0) {
+                if (time > 0) {
                     this.btnText = '已发送(' + time + ")"
                     this.btnStatus = true;
 
@@ -97,7 +97,7 @@
                     setTimeout(() => {
                         this.btnTextChange(newTime)
                     }, 1000);
-                }else {
+                } else {
                     this.btnText = '发送短信';
                     this.btnStatus = false;
                 }

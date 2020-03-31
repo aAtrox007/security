@@ -27,7 +27,7 @@ public class SmsCodeController {
 
         String randomCode = randomStringGenerator.generate(6);  //生成随机码
 
-        SmsCode smsCode = new SmsCode(randomCode, 20);
+        SmsCode smsCode = new SmsCode(randomCode, 120);
         request.getSession().setAttribute(Constants.SMS_CODE_SESSION_KEY, smsCode);
 
         smsCodeService.sendMsg(randomCode, phoneNum);
@@ -37,13 +37,5 @@ public class SmsCodeController {
         map.put("msg", "短信发送成功");
 
         return map;
-    }
-
-    public static void main(String[] args) {
-        RandomStringGenerator randomStringGenerator = new RandomStringGenerator.Builder()
-                .withinRange(new char[]{'a', 'z'}, new char[]{'A', 'Z'}, new char[]{'0', '9'}).build();
-
-        System.out.println(randomStringGenerator.generate(10));
-
     }
 }

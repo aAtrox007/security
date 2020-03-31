@@ -1,6 +1,6 @@
 package org.qf.authentication;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+import  org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 
@@ -18,7 +18,6 @@ public class PhoneNumAuthenticationToken extends AbstractAuthenticationToken {
      */
     private final Object principal;
 
-
     // ~ Constructors
     // ===================================================================================================
 
@@ -26,7 +25,6 @@ public class PhoneNumAuthenticationToken extends AbstractAuthenticationToken {
      * This constructor can be safely used by any code that wishes to create a
      * <code>UsernamePasswordAuthenticationToken</code>, as the {@link #isAuthenticated()}
      * will return <code>false</code>.
-     *
      */
     public PhoneNumAuthenticationToken(Object principal) {
         super(null);
@@ -44,7 +42,7 @@ public class PhoneNumAuthenticationToken extends AbstractAuthenticationToken {
      * @param authorities
      */
     public PhoneNumAuthenticationToken(Object principal,
-                                               Collection<? extends GrantedAuthority> authorities) {
+                                       Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         super.setAuthenticated(true); // must use super, as we override
@@ -59,10 +57,12 @@ public class PhoneNumAuthenticationToken extends AbstractAuthenticationToken {
         return null;
     }
 
+    @Override
     public Object getPrincipal() {
         return this.principal;
     }
 
+    @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
         if (isAuthenticated) {
             throw new IllegalArgumentException(

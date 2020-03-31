@@ -40,7 +40,7 @@ public class SmsCodeService {
 //        request.putQueryParameter("RegionId", "cn-hangzhou");
 //        request.putQueryParameter("PhoneNumbers", phoneNum);
 //        request.putQueryParameter("SignName", "正井猫");
-//        request.putQueryParameter("TemplateCode", "SMS_181853118");
+//        request.putQueryParamet   er("TemplateCode", "SMS_181853118");
 //        request.putQueryParameter("TemplateParam", "{\"code\": \"" + code + "\"}");
 //        try {
 //            CommonResponse response = client.getCommonResponse(request);

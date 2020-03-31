@@ -1,4 +1,4 @@
-package org.qf.config;
+package org.qf.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

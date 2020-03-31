@@ -1,16 +1,14 @@
 package org.qf.pojo;
 
 import java.awt.image.BufferedImage;
-import java.time.LocalDateTime;
 
-public class ImageCode extends SmsCode{
+public class ImageCode extends SmsCode {
     private BufferedImage bufferedImage; //图片
 
-    public ImageCode() {
-    }
 
     /**
      * ImageCode imageCode = new ImageCode(image, "4589", 60);
+     *
      * @param bufferedImage
      * @param code
      * @param ttl

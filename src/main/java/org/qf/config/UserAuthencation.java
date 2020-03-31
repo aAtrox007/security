@@ -27,7 +27,7 @@ import java.util.List;
  * authorization   授权
  * 当用户在页面中填写完用户名和密码会自动的传入到实现了UserDetailsService的实现类
  * 的loadUserByUsername这个方法中。
- *
+ * <p>
  * 1.将用户原密码做md5.   c4ca4238a0b923820dcc509a6f75849b
  * 2.生成一个随机的字符串16位。 8a0b9509a75849bf
  * 3.每两位的密码 + 一位随机字符串。 c4 8 ca a 42 0 38 b ... 得到长度为48位字符串。
@@ -52,7 +52,7 @@ public class UserAuthencation implements UserDetailsService {
 
 //        String password = "$2a$10$ODIws5e9r1LvPAGJWogJjuJEaoVGDsTIJLW3udUQ2yjRy2pn/HDIG";   //例如说密码是从数据库查询出来的
         // 用户如果不存在，就手动抛出异常
-        if(null == sysUser) {
+        if (null == sysUser) {
             logger.info("获取到用户信息为空.");
             throw new UsernameNotFoundException("用户名或密码错误");
         }
@@ -77,16 +77,14 @@ public class UserAuthencation implements UserDetailsService {
         return list;
     }
 
-
     /** 基于角色
-    private List<GrantedAuthority> authorities(List<String> roles) {
-        List<GrantedAuthority> list = new ArrayList<>();
-        roles.forEach(role -> {
-            list.add(new SimpleGrantedAuthority("ROLE_" + role));
-        });
-
-        //return Arrays.asList(new SimpleGrantedAuthority("ROLE_admin"), new SimpleGrantedAuthority("ROLE_teacher"));
-        return list;
-    }
+     private List<GrantedAuthority> authorities(List<String> roles) {
+     List<GrantedAuthority> list = new ArrayList<>();
+     roles.forEach(role -> {
+     list.add(new SimpleGrantedAuthority("ROLE_" + role));
+     });
+     //return Arrays.asList(new SimpleGrantedAuthority("ROLE_admin"), new SimpleGrantedAuthority("ROLE_teacher"));
+     return list;
+     }
      */
 }
